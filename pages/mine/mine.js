@@ -1,18 +1,32 @@
 // pages/mine/mine.js
+const app=getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+     username:'',
+     avatr_img:''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+      wx.getUserInfo({
+        success:res=>{
+          console.log(res)
+          this.setData({
+            avatr_img:res.userInfo.avatarUrl,
+            username:res.userInfo.nickName
+          })
+        }
+      })
+    app.globalData.userInfo={
+      username:this.data.username,
+      avatr_img:this.data.avatr_img
+    }
   },
 
   /**

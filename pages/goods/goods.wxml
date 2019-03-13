@@ -14,13 +14,14 @@
       <view class="weui-cell">
         <view class="weui-cell_bd">
           <view class="title">
-            {{detail.header}}
+          <!-- 不能使用detail的值，重新设定 -->
+            {{goodsname}}
           </view>
           <view class="desp">
             {{detail.description}}
           </view>
           <view>
-            {{detail.meta}}
+            {{price}}
           </view>
         </view>
       </view>
@@ -35,7 +36,7 @@
     <navigator class="weui-cell weui-cell_access" hover-class="none" url="../selectGoods/selectGoods?id={{detail.id}}">
       <view class="weui-cell__bd selected">
         <text class="weui-cell__subtitle">已选</text>
-        <text>{{detail.header}} {{detail.default[0]}} {{detail.default[1]}}</text>
+        <text>{{detail.header}} {{memory}} {{color}}</text>
         <text class="weui_cell__num">×{{goods.default[2]}}</text>
       </view>
       <view class="weui-cell__ft  weui-cell__ft_in-access"></view>

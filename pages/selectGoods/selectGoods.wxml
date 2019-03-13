@@ -4,7 +4,7 @@
         <view class="weui-cells preview">
             <view class="weui-cell">
                 <view class="weui-cell__hd head">
-                    <image src="{{item.goods_slides[0].slide_url}}" />
+                    <image src="{{cove_img}}" />
                 </view>
                 <view class="weui-cell__bd">
                     <view class="title">{{item.header}} {{memory}} {{color}}</view>

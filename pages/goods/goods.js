@@ -9,23 +9,43 @@ Page({
     detail:{},
     selected:true,
     selected1:false,
-    goods_num:0
+    goods_num:0,
+    goodsname:'',
+    price:'',
+    memory:'',
+    color:''
   },
-
+ 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     const cartlength = wx.getStorageSync('attr_item')
     const id = options.id
+    
     const detail = app.globalData.goodsDetail.filter(item=>item.id==id)
     app.globalData.thisDetail=detail;
-    console.log(detail)
+    let arr=[];
+    //arr为购物车中该商品的数量    
+    if(cartlength)
+    {
+      //判断cartlength中是否存在值
+      arr=cartlength.filter(item=>item.goodsname==detail[0].header)
+      
+    }else
+    {
+     arr=[]
+    }
     this.setData({
       detail:detail[0],
-      goods_num:cartlength.length
+      goods_num:cartlength.length, //获取购物车存在的商品数量
+      goodsname:arr.length?arr[0].goodsname:detail[0].header,
+      price:arr.length?arr[0].price:detail[0].meta,
+      memory:arr.length?arr[0].memory:detail[0].default[0],
+      color:arr.length?arr[0].color:detail[0].default[1]
+     
     })
-  
+    
   },
   previewImage(e){
    const index=e.currentTarget.dataset.id
@@ -51,6 +71,32 @@ Page({
       selected1:false
     })
   },
+  toSelect(){
+    const arr_item = wx.getStorageSync('attr_item')
+    console.log(arr_item)
+    console.log(this.data.detail)
+    const temp={
+      goodsname: this.data.detail.header,
+      memory: this.data.detail.default[0],
+      price: this.data.detail.meta,
+      color: this.data.detail.default[1],
+      select_num:1,
+      selected:false
+    }
+   wx.setStorageSync('attr_item', [temp,...arr_item])
+   wx.showToast({
+     title: '加入购物车成功',
+     icon: 'success',
+     duration: 3000,
+     success:()=>{
+       setTimeout(() => {
+         wx.navigateBack({
+           url: '../goods/goods'
+         })
+       }, 1000)
+     }
+   })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -62,6 +108,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    const cartlength = wx.getStorageSync('attr_item')
+    
+    this.setData({
+      goods_num:cartlength.length
+    })
 
   },
 
